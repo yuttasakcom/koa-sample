@@ -5,7 +5,7 @@ afterEach(() => {
   server.close()
 })
 
-describe('routes: index', () => {
+describe('/system/health', () => {
   test('should respond as expected', async () => {
     const response = await request(server).get('/system/health')
     expect(response.status).toEqual(200)
