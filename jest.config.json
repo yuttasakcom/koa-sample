@@ -1,0 +1,6 @@
+{
+  "automock": false,
+  "testEnvironment": "node",
+  "verbose": true,
+  "testPathIgnorePatterns": ["/node_modules/", "/build/"]
+}

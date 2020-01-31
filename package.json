@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon src/index.js --exec babel-node",
-    "build": "babel src -d build --source-maps"
+    "build": "babel src -d build --source-maps",
+    "test": "jest --config ./jest.config.json ./src ./test --forceExit",
+    "test:watch": "jest --config ./jest.config.json ./src ./test --watchAll --runInBand"
   },
   "keywords": [],
   "author": "",
@@ -26,6 +28,8 @@
     "@babel/plugin-proposal-decorators": "^7.8.3",
     "@babel/polyfill": "^7.8.3",
     "@babel/preset-env": "^7.8.4",
-    "nodemon": "^2.0.2"
+    "jest": "^25.1.0",
+    "nodemon": "^2.0.2",
+    "supertest": "^4.0.2"
   }
 }

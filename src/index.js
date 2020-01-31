@@ -26,3 +26,5 @@ app.use(router.allowedMethods())
 server.listen(PORT, HOST, () => {
   console.log(`Server is running at http://${HOST}:${PORT}`)
 })
+
+export default server
