@@ -4,6 +4,7 @@ services:
   - docker:dind
 
 stages:
+  - prepare
   - test
   - build
   - deploy
@@ -21,9 +22,28 @@ before_script:
     $DOCKER_PASSWORD registry.dev.true-e-logistics.com
   - apk update && apk add ca-certificates wget && update-ca-certificates
 
-testing:
+prepare:
+  before_script:
+    - ''
   image:
     name: $BUILD_IMAGE
+    entrypoint: ['']
+  stage: prepare
+  artifacts:
+    untracked: true
+  script:
+    - npm install
+  tags:
+    - docker
+
+unit-test:
+  before_script:
+    - ''
+  dependencies:
+    - prepare
+  image:
+    name: $BUILD_IMAGE
+    entrypoint: ['']
   stage: test
   artifacts:
     paths:
