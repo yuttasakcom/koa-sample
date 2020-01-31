@@ -13,6 +13,7 @@ cache:
 
 variables:
   CONTAINER_RELEASE_IMAGE: registry.dev.true-e-logistics.com/sendit/wfm-pre-optimization
+  BUILD_IMAGE: registry.dev.true-e-logistics.com/node:12
   DOCKER_DRIVER: overlay
 
 before_script:
@@ -21,13 +22,8 @@ before_script:
   - apk update && apk add ca-certificates wget && update-ca-certificates
 
 testing:
-  before_script:
-    - ''
-  dependencies:
-    - prepare
   image:
     name: $BUILD_IMAGE
-    entrypoint: ['']
   stage: test
   artifacts:
     paths:
