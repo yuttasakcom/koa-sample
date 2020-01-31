@@ -1,0 +1,73 @@
+image: docker:latest
+
+services:
+  - docker:dind
+
+stages:
+  - test
+  - build
+  - deploy
+
+cache:
+  untracked: true
+
+variables:
+  CONTAINER_RELEASE_IMAGE: registry.dev.true-e-logistics.com/sendit/wfm-pre-optimization
+  DOCKER_DRIVER: overlay
+
+before_script:
+  - export DOCKER_API_VERSION=1.23 && docker login -u $DOCKER_USER -p
+    $DOCKER_PASSWORD registry.dev.true-e-logistics.com
+  - apk update && apk add ca-certificates wget && update-ca-certificates
+
+testing:
+  before_script:
+    - ''
+  dependencies:
+    - prepare
+  image:
+    name: $BUILD_IMAGE
+    entrypoint: ['']
+  stage: test
+  artifacts:
+    paths:
+      - coverage/
+  script:
+    - npm run test
+  tags:
+    - docker
+
+develop-build:
+  stage: build
+  environment: develop
+  script:
+    - docker pull $CONTAINER_RELEASE_IMAGE:stable || true
+    - docker build --cache-from $CONTAINER_RELEASE_IMAGE:stable -t
+      $CONTAINER_RELEASE_IMAGE:develop-${CI_COMMIT_SHA} -f deployment/Dockerfile .
+    - docker push $CONTAINER_RELEASE_IMAGE:develop-${CI_COMMIT_SHA}
+  tags:
+    - docker
+  only:
+    - develop
+
+develop-deploy:
+  image: registry.gitlab.com/sendit-th/docker-base:kube
+  stage: deploy
+  environment: develop
+  before_script:
+    - mkdir ~/.kube
+    - echo -n "${KUBE_CONFIG}" | base64 -d > ~/.kube/config
+    - kubectl config use-context admin-sendit-dev-staging.k8s.local
+    - helm init --client-only
+  script:
+    - git clone
+      https://$SENDIT_GITLAB_USERNAME:$SENDIT_GITLAB_PASSWORD@gitlab.com/sendit-th/sendit-infra-cluster.git
+      /sendit-infra-cluster
+    - helm upgrade -i develop-wfm-pre-optimization
+      /sendit-infra-cluster/helm-nodejs -f deployment/values-development.yaml
+      --namespace=development --set
+      nodejs.image.tag=development-${CI_COMMIT_SHA}
+  tags:
+    - docker
+  only:
+    - develop

@@ -1,0 +1,31 @@
+nodejs:
+  replicaCount: 1
+  nameOverride: develop-4pl-route-optimization-pre-process
+  imagePullSecrets:
+    name: telregistry
+  image:
+    repository: registry.dev.true-e-logistics.com/sendit/4pl-route-optimization-pre-process
+    pullPolicy: Always
+  containerPorts:
+    - 80
+  env:
+    - name: APP_NAME
+      value: 4pl-route-optimization-pre-process
+    - name: NODE_ENV
+      value: develop
+    - name: KOA_PORT
+      value: '80'
+    - name: KOA_NAMESPACE
+      value: a1e4b0c3-4236-44d8-9293-43a5b85f3165
+  workingDir: /var/source
+  healthCheck:
+    httpGet:
+      path: /system/health
+      port: 80
+  type: ClusterIP
+  default:
+    ports:
+      - name: develop-4pl-route-optimization-pre-process
+        externalPort: 80
+        internalPort: 80
+        protocol: TCP
