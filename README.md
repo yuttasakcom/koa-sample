@@ -11,3 +11,11 @@ $ npm install
 ```bash
 $ npm run dev
 ```
+
+## Test
+
+```bash
+$ npm run test
+/* or */
+$ npm run test:watch
+```
