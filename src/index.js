@@ -3,16 +3,17 @@ import http from 'http'
 import { resolve } from 'path'
 
 import koa from 'koa'
+import bodyParser from 'koa-bodyparser'
 import shutdown from 'koa-graceful-shutdown'
 import { load } from '@spksoft/koa-decorator'
-import bodyParser from 'koa-bodyparser'
+
 import config from './config'
 import errorHandler from './middlewares/errorHandler'
 
 const app = new koa()
+const PORT = config.server.port
+const HOST = config.server.host
 const server = http.createServer(app.callback())
-const PORT = process.env.PORT || '3000'
-const HOST = process.env.HOST || '0.0.0.0'
 const router = load(resolve(__dirname, 'controllers'), 'controller.js')
 
 app.use(shutdown(server))
@@ -22,6 +23,6 @@ app.use(errorHandler())
 app.use(router.routes())
 app.use(router.allowedMethods())
 
-server.listen(config.server.port, config.server.host, () => {
+server.listen(PORT, HOST, () => {
   console.log(`Server is running at http://${HOST}:${PORT}`)
 })
