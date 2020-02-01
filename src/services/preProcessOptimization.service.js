@@ -1,24 +1,28 @@
 import axios from 'axios'
+import { uploadJsonToS3 } from '../libraries/s3'
 
 import config from '../config'
 
 class preProcessOptimization {
   DISTANCE_MODE = 'DISTANCE'
+  BUCKET_NAME = 'staging-route-optimization'
   ROUTE_OPTIMIZE_FILE_URI = 'route-optimization/file'
+  s3FolderName = ''
 
   /**
    * makeInput
    * @description
    * make input for optimization
-   * @param {*} input
-   * areaCode String |
-   * appointmentDate String
+   * @param {Object} input -
+   * - areaCode String
+   * - appointmentDate String
    */
   async makeInput(input) {
     const { orders, staffs } = await this.getOrdersAndStaffs(input)
     const generateInput = await this.generateInput(orders, staffs)
-    const uploaded = await this.uploadJsonToS3(generateInput)
-    await this.callOptimization(uploaded)
+    return generateInput
+    // const uploaded = await this.uploadJson(generateInput)
+    // await this.callOptimization(uploaded)
   }
 
   async getOrdersAndStaffs(input) {
@@ -37,8 +41,7 @@ class preProcessOptimization {
 
   async generateInput(orders, staffs) {
     try {
-      console.log('generateInput finished')
-      return {
+      const input = {
         mode: this.DISTANCE_MODE,
         locations: {
           ids: [...staffs.map(s => `staff:${s.id}`), ...orders.map(o => o.id)],
@@ -70,16 +73,31 @@ class preProcessOptimization {
           [1496, 0]
         ]
       }
+      console.log('generateInput finished')
+      return input
     } catch (error) {
       console.error(`generateInput error: ${error}`)
     }
   }
 
-  async uploadJsonToS3(generateInput) {
+  async setFolderName(dirName) {
+    this.s3FolderName = dirName
+    return this
+  }
+
+  async uploadJson(generateInput) {
     try {
-      console.log('uploadJsonToS3 finished')
+      const s3Result = await uploadJsonToS3(
+        this.BUCKET_NAME,
+        '1',
+        '2020-02-01.json',
+        JSON.stringify(generateInput)
+      )
+      console.log('uploadJson finished')
+      return s3Result
     } catch (error) {
-      console.error(`uploadJsonToS3 error: ${error}`)
+      console.error(`uploadJson error: ${error}`)
+      return
     }
   }
 

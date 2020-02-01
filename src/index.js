@@ -9,6 +9,7 @@ import { load } from '@spksoft/koa-decorator'
 
 import config from './config'
 import errorHandler from './middleware/errorHandler'
+import jaeger from './middleware/jaeger'
 
 const app = new koa()
 const PORT = config.server.port
@@ -18,6 +19,7 @@ const router = load(resolve(__dirname, 'controllers'), 'controller.js')
 
 app.use(shutdown(server))
 app.use(bodyParser())
+app.use(jaeger())
 app.use(errorHandler())
 
 app.use(router.routes())

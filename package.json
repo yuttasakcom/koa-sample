@@ -14,10 +14,13 @@
   "license": "ISC",
   "dependencies": {
     "@spksoft/koa-decorator": "^1.2.2",
+    "aws-sdk": "^2.610.0",
     "axios": "^0.19.2",
+    "jaeger-client": "^3.17.1",
     "koa": "^2.11.0",
     "koa-bodyparser": "^4.2.1",
     "koa-graceful-shutdown": "^1.1.0",
+    "opentracing": "^0.14.4",
     "uuid": "^3.4.0",
     "yup": "^0.28.1"
   },

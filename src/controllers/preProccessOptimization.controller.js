@@ -12,7 +12,7 @@ class PreProcessOptimization {
     /**
      * validate(input) is validation request params
      *
-     * @param input ctx.request.body
+     * @param {Object} input - ctx.request.body
      * @description
      * areaCode is required string
      * appointmentDate is required string
@@ -28,10 +28,10 @@ class PreProcessOptimization {
      * make input for Optimization
      */
     const service = new preProcessOptimizationService()
-    await service.makeInput(input)
+    const res = await service.makeInput(input)
 
     ctx.status = 201
-    ctx.body = { msg: 'OK' }
+    ctx.body = { data: res }
   }
 }
 
