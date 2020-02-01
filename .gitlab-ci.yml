@@ -35,6 +35,8 @@ prepare:
     - npm install
   tags:
     - docker
+  only:
+    - develop
 
 unit-test:
   before_script:
@@ -52,6 +54,8 @@ unit-test:
     - npm run test
   tags:
     - docker
+  only:
+    - develop
 
 develop-build:
   stage: build
