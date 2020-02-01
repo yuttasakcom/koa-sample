@@ -129,9 +129,6 @@ class preProcessOptimization {
    * @todo Refactor code
    * */
   async getOrders({ areaCode, appointmentDate }) {
-    applyTracingInterceptors(API, {
-      span: this.ctx.req.span
-    })
     const { data } = await API.get('/users')
     return data
   }
@@ -140,9 +137,6 @@ class preProcessOptimization {
    * @todo Refactor code
    * */
   async getStaffs({ areaCode, appointmentDate }) {
-    applyTracingInterceptors(API, {
-      span: this.ctx.req.span
-    })
     const { data } = await API.get('/users')
     return data
   }
