@@ -1,12 +1,12 @@
 import request from 'supertest'
-import server from '../../src'
+import server from '../../index'
 
 afterEach(() => {
   server.close()
 })
 
 describe('/system/health', () => {
-  test('should respond as expected', async () => {
+  test('expected health check is OK', async () => {
     const response = await request(server).get('/system/health')
     expect(response.status).toEqual(200)
     expect(response.type).toEqual('text/plain')

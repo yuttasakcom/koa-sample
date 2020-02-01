@@ -8,7 +8,7 @@ import shutdown from 'koa-graceful-shutdown'
 import { load } from '@spksoft/koa-decorator'
 
 import config from './config'
-import errorHandler from './middlewares/errorHandler'
+import errorHandler from './middleware/errorHandler'
 
 const app = new koa()
 const PORT = config.server.port
