@@ -6,20 +6,22 @@ import koa from 'koa'
 import bodyParser from 'koa-bodyparser'
 import shutdown from 'koa-graceful-shutdown'
 import { load } from '@spksoft/koa-decorator'
+import dotenv from 'dotenv'
 
 import config from './config'
 import errorHandler from './middleware/errorHandler'
-import jaeger from './middleware/jaeger'
+
+dotenv.config()
 
 const app = new koa()
 const PORT = config.server.port
 const HOST = config.server.host
 const server = http.createServer(app.callback())
+
 const router = load(resolve(__dirname, 'controllers'), 'controller.js')
 
 app.use(shutdown(server))
 app.use(bodyParser())
-app.use(jaeger())
 app.use(errorHandler())
 
 app.use(router.routes())

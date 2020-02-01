@@ -1,13 +1,20 @@
 import axios from 'axios'
-import { uploadJsonToS3 } from '../libraries/s3'
 
 import config from '../config'
+import { uploadJsonToS3 } from '../libraries/s3'
+
+const API = axios.create({
+  baseURL: config.driveServer.host
+})
 
 class preProcessOptimization {
   DISTANCE_MODE = 'DISTANCE'
   BUCKET_NAME = 'staging-route-optimization'
   ROUTE_OPTIMIZE_FILE_URI = 'route-optimization/file'
-  s3FolderName = ''
+
+  constructor(ctx) {
+    this.ctx = ctx
+  }
 
   /**
    * makeInput
@@ -122,9 +129,10 @@ class preProcessOptimization {
    * @todo Refactor code
    * */
   async getOrders({ areaCode, appointmentDate }) {
-    const { data } = await axios.get(
-      'https://jsonplaceholder.typicode.com/users'
-    )
+    applyTracingInterceptors(API, {
+      span: this.ctx.req.span
+    })
+    const { data } = await API.get('/users')
     return data
   }
 
@@ -132,9 +140,10 @@ class preProcessOptimization {
    * @todo Refactor code
    * */
   async getStaffs({ areaCode, appointmentDate }) {
-    const { data } = await axios.get(
-      'https://jsonplaceholder.typicode.com/users'
-    )
+    applyTracingInterceptors(API, {
+      span: this.ctx.req.span
+    })
+    const { data } = await API.get('/users')
     return data
   }
 }

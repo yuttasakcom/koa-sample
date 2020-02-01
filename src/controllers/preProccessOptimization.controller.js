@@ -27,7 +27,7 @@ class PreProcessOptimization {
      * @description
      * make input for Optimization
      */
-    const service = new preProcessOptimizationService()
+    const service = new preProcessOptimizationService(ctx)
     const res = await service.makeInput(input)
 
     ctx.status = 201

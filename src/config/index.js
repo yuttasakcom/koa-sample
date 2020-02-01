@@ -1,5 +1,8 @@
 import uuid from 'uuid/v4'
+import dotenv from 'dotenv'
 import { name, version } from '../../package.json'
+
+dotenv.config()
 
 const hostname =
   process.env.HOSTNAME || `${name}:${version}:${process.env.NODE_ENV}`
@@ -29,15 +32,17 @@ const config = {
     reporter: {
       agentHost: process.env.HOSTNAME || 'localhost',
       agentPort: process.env.JAEGER_AGENT_PORT || '6832'
-    }
+    },
+    proxyTable: [
+      {
+        target: `http://localhost:${process.env.NODE_ENV || '3000'}`,
+        changeOrigin: true
+      }
+    ]
   },
-  proxyTable: [
-    {
-      target: `http://${process.env.HOST || 'localhost'}:${process.env
-        .KOA_PORT || '3000'}`,
-      changeOrigin: true
-    }
-  ]
+  driveServer: {
+    host: process.env.DRIVE_URL
+  }
 }
 
 export default config
