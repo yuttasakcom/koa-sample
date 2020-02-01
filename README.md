@@ -1,5 +1,17 @@
 # Pre Process Optimization
 
+## Create Environment
+
+```bash
+$ cp .env.example .env
+```
+
+## Start Docker
+
+```bash
+$ cd docker && docker-compose up -d
+```
+
 ## Install Packages
 
 ```bash
