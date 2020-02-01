@@ -11,6 +11,9 @@ const config = {
     hostname:
       process.env.HOSTNAME || `${name}:${version}:${process.env.NODE_ENV}`,
     namespace: process.env.KOA_NAMESPACE || uuid()
+  },
+  optimization: {
+    host: process.env.OPTIMIZATION_URL
   }
 }
 
