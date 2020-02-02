@@ -31,7 +31,7 @@ class PreProcessOptimization {
     const res = await service.makeInput(input)
 
     ctx.status = 201
-    ctx.body = { data: res }
+    ctx.body = res
   }
 }
 

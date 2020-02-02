@@ -42,6 +42,9 @@ const config = {
   },
   driveServer: {
     host: process.env.DRIVE_URL
+  },
+  omsServer: {
+    host: process.env.OMS_URL
   }
 }
 
