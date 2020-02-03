@@ -77,10 +77,10 @@ class preProcessOptimization {
           allow_vehicles: []
         },
         vehicles: {
-          ids: ['56eac3ea-d06e-461c-9d4c-915a604a78e6'],
-          capacities: [6],
-          starts: [0],
-          ends: [0]
+          ids: [],
+          capacities: [],
+          starts: [],
+          ends: []
         },
         distance_matrix: distanceMatrix(orders.map(o => o.address.geo))
       }
