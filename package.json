@@ -15,7 +15,7 @@
   "dependencies": {
     "@spksoft/koa-decorator": "^1.2.2",
     "aws-sdk": "^2.610.0",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "dotenv": "^8.2.0",
     "http-proxy-middleware": "^0.20.0",
     "jaeger-client": "^3.17.1",
